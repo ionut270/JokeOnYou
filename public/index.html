@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script>
+			function myFunction() {
+				var name = document.getElementById("myForm").elements[0].value;
+				var surname = document.getElementById("myForm").elements[1].value;
+				var jokes = document.getElementById("myForm").elements[2].value;
+				if (name === "First name" || name === "" || !isNaN(name)) {
+					document.getElementById("fanmeError").style.display = "block";
+				} else {
+					document.getElementById("fanmeError").style.display = "none";
+					if (surname === "Last Name" || surname === "" || !isNaN(surname)) {
+						document.getElementById("lanmeError").style.display = "block";
+					} else {
+						document.getElementById("lanmeError").style.display = "none";
+						if (jokes === "Number of jokes" || jokes === "" || isNaN(jokes)) {
+							document.getElementById("numberError").style.display = "block";
+						} else {
+							document.getElementById("numberError").style.display = "none";
+							var joke;
+							fetch("http://localhost:8080/get-joke", {
+								method: "POST",
+								headers: {
+									"Content-Type": "application/json",
+								},
+								body: JSON.stringify({ name: name, surname: surname, jokes: jokes }), // body data type must match "Content-Type" header
+							})
+								.then(res => {
+									return res.json();
+								})
+								.then(res => {
+									console.log(res.value);
+									if (jokes == 1) {
+										joke = '<h1 id="l3apps">Having fun there ?</h1>';
+										joke += '<p class="joke">';
+										joke += res.value[0].joke;
+										joke += "</p>";
+									} else {
+										joke = '<h1 id="l3apps">Here you go! </h1>';
+										for (let i = 0; i < jokes; i++) {
+											joke += '<p class="joke">';
+											joke += res.value[i].joke;
+											joke += "</p>";
+										}
+									}
+									document.getElementById("jokes").innerHTML = joke;
+								});
+						}
+					}
+				}
+			}
+		</script>
+		<style>
+			html {
+				height: 100%;
+			}
+			#myForm {
+				margin: 0 auto;
+				display: flex;
+				flex-flow: column;
+				text-align: center;
+				width: 20em;
+			}
+			.header {
+				padding: 5rem 6rem;
+				color: #fff;
+				text-align: center;
+				background-color: #00ace6;
+				background-image: linear-gradient(120deg, #00ace6, #ff6666);
+			}
+			body {
+				margin: 0;
+			}
+			input {
+				padding: 0.75rem 1rem;
+				display: inline-block;
+				margin-bottom: 1rem;
+				color: rgba(255, 255, 255, 0.7);
+				background-color: rgba(255, 255, 255, 0.08);
+				border-color: rgba(255, 255, 255, 0.2);
+				border-style: solid;
+				border-width: 1px;
+				border-radius: 0.3rem;
+				transition: color 0.2s, background-color 0.2s, border-color 0.2s;
+				text-decoration: none;
+			}
+
+			.joker {
+				width: 10em;
+				padding: 5em;
+			}
+			div#jokes {
+				max-width: 64rem;
+				padding: 2rem 6rem;
+				margin: 0 auto;
+				font-size: 1.1rem;
+				word-wrap: break-word;
+				display: block;
+				font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+				font-size: 16px;
+				line-height: 1.5;
+				color: #606c71;
+			}
+			.joke {
+				box-sizing: border-box;
+				color: rgb(96, 108, 113);
+				display: block;
+				font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+				font-size: 17.6px;
+				line-height: 26.4px;
+				margin-block-end: 17.6px;
+				margin-block-start: 17.6px;
+				margin-bottom: 17.6px;
+				margin-inline-end: 0px;
+				margin-inline-start: 0px;
+				overflow-wrap: break-word;
+				text-size-adjust: 100%;
+				text-align: center;
+			}
+			#l3apps {
+				text-align: center;
+				box-sizing: border-box;
+				color: rgb(21, 153, 87);
+				display: block;
+				font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+				font-size: 35.2px;
+				font-weight: 400;
+				height: 52px;
+				line-height: 52.8px;
+				margin: 0 auto;
+				overflow-wrap: break-word;
+				text-size-adjust: 100%;
+				width: 832px;
+			}
+            .error{
+                color:#fff !important;
+            }
+            .credits{
+                margin:0 auto;
+                text-align: center;
+                bottom:0;
+            }
+		</style>
+	</head>
+	<body>
+		<div class="header">
+			<img class="joker" src="/file../joker.png" />
+			<form id="myForm">
+				<p
+					class="joke error"
+					id="fanmeError"
+					style="
+                    display: none;
+                "
+				>
+					Please insert a name
+				</p>
+				<input
+					type="text"
+					name="fname"
+					value="First name"
+					onclick='if(value=="First name"){value = ""}'
+					onblur='if(value==""){value = "First name"}'
+				/>
+				<p
+					class="joke error"
+					id="lanmeError"
+					style="
+                display: none;
+            "
+				>
+					Please insert a last name
+				</p>
+				<input
+					type="text"
+					name="lname"
+					value="Last Name"
+					onclick='if(value=="Last Name"){value = ""}'
+					onblur='if(value==""){value = "Last Name"}'
+				/>
+				<p
+					class="joke error"
+					id="numberError"
+					style="
+                display: none;
+            "
+				>
+					Please insert a valid number
+				</p>
+				<input
+					type="text"
+					name="lname"
+					value="Number of jokes"
+					onclick='if(value=="Number of jokes"){value = ""}'
+					onblur='if(value==""){value = "Number of jokes"}'
+				/>
+				<input type="button" value="Submit" onclick="myFunction()" />
+			</form>
+		</div>
+		<div id="jokes">
+			<h1 id="l3apps">Your jokes will appear here</h1>
+        </div>
+        <div class="joke credits">Icons made by <a href="https://www.flaticon.com/authors/monkik" title="monkik">monkik</a> from <a href="https://www.flaticon.com/" 			    title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" 			    title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+	</body>
+</html>

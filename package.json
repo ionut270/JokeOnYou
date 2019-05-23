@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "It's a joke :D",
   "main": "index.js",
+  "repository": "https://github.com/ionut270/JokeOnYou"
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

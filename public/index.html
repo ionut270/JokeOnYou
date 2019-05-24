@@ -45,6 +45,17 @@
 										}
 									}
 									document.getElementById("jokes").innerHTML = joke;
+									document.getElementById("headElement").style.height = "100px";
+									document.getElementById("headElement").style.display = "flex";
+									document.getElementById("headElement").style["justify-content"] = "center";
+									document.getElementById("headElement").style["align-items"] = "center";
+
+									document.getElementById("logo").style.height = "50px";
+									document.getElementById("logo").style.width = "auto";
+									document.getElementById("logo").style.padding = "0";
+
+									document.getElementById("myForm").style.display = "none";
+
 								});
 						}
 					}
@@ -121,7 +132,7 @@
 			#l3apps {
 				text-align: center;
 				box-sizing: border-box;
-				color: rgb(21, 153, 87);
+				color: #ff6666;
 				display: block;
 				font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 				font-size: 35.2px;
@@ -131,7 +142,6 @@
 				margin: 0 auto;
 				overflow-wrap: break-word;
 				text-size-adjust: 100%;
-				width: 832px;
 			}
             .error{
                 color:#fff !important;
@@ -144,8 +154,8 @@
 		</style>
 	</head>
 	<body>
-		<div class="header">
-			<img class="joker" src="/file../joker.png" />
+		<div class="header" id="headElement">
+			<img class="joker" id="logo" src="/file../joker.png" />
 			<form id="myForm">
 				<p
 					class="joke error"
